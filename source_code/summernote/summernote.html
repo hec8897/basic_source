@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- JQuery file-->
+    <script src="../jquery/jquery-1.9.1.min.js"></script>
+    <!-- ajax modules -->
+    <script src="dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+    <!-- Minified version of `es6-promise-auto` below. -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <!-- summernote -->
+    <script src="dist/summernote.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-lite.min.css" rel="stylesheet">
+    <title>서머노트</title>
+</head>
+
+<body>
+    <script>
+            var Promise = require('es6-promise').Promise;
+    </script>
+
+    <textarea name="content" id='summernote'></textarea>
+
+    <script>
+        $('#summernote').summernote({
+            height: 400,
+            lang: 'ko-KR', // default: 'en-US'
+            focus: false,
+            tooltip: false,
+            resize: false,
+            lang: 'ko-KR', // 기본 메뉴언어 US->KR로 변경
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'underline', 'clear']],
+                ['para', ['paragraph']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['height', ['height']],
+                ['hr', ['hr']],
+                ['picture', ['picture']],
+                // ['view', ['fullscreen', 'codeview']]
+            ],
+            callbacks: {
+                onImageUpload: function (files, editor, welEditable) {
+                    //이미지 업로드 콜백
+                    for (var i = files.length - 1; i >= 0; i--) {
+                        sendFile(files[i], this);
+                    }
+                }
+            }
+        });
+
+        function InsertDesc(DESC){
+            $('#summernote').summernote('code', DESC);
+        }
+        //코드로삽입
+
+        $('.note-statusbar').hide()
+
+        ImgArray = [];
+        NewImgArray = [];
+
+        function sendFile(file, el) {
+            formData = new FormData();
+            formData.append('file', file);
+            const baseURI = 'api/upload.img.php';
+
+            axios.post(
+                    baseURI, formData
+                    )
+                    .then((result) => {
+                        if(result.data.file == 'fileNo'){
+                            alert('파일 업로드실패')
+                        }
+                        else if(result.data.file == 'noExt'){
+                            alert('사용할수없는확장자입니다')
+                        }
+                        else if(result.data.file == 'huge'){
+                            alert('사이즈가너무큽니다.')
+                        }
+                        else{
+                            let url = 'images/'+result.data.file;//업로드경로
+
+                            $(el).summernote('editor.insertImage', url);
+                            $('#imageBoard > ul').append('<li class="summernote_img"><img src="'+url+'" width="100%" height="auto"/></li>');
+
+                            ImgArray.push(url)
+                            NewImgArray.push(url)
+
+                            // parent.InsertData.append('desc_img',ImgArray)
+                        
+                        }
+                    })
+                    .catch(err => console.log('Login: ', err));
+        }
+      
+
+    </script>
+
+
+</body>
+
+</html>

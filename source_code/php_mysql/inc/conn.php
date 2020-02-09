@@ -1,6 +1,9 @@
 <?php
-    $conn = mysqli_connect('localhost','ID','패스워드','DB명');
+    $host = 'localhost';
+    $id = 'root';
+    $pw = '523852';
+    $db = 'sys';
+    
+    $conn = mysqli_connect($host,$id,$pw,$db);//host,Id,pw,DB
     mysqli_set_charset($conn,"utf8");
-    $time = date('Y-m-d H:i');
-
 ?>

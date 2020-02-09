@@ -1,10 +1,10 @@
 <?php
 include("inc/conn.php");
-
 mysqli_set_charset($conn,"utf-8"); 
 $data = json_decode(file_get_contents("php://input"),true);
+$targetTb = `insert_tb`;
 
-$sql = "DELETE FROM `insert_tb` WHERE 'idx'='$key'";
+$sql = "DELETE FROM `$targetTb` WHERE 'idx'='$key'";
 $query = mysqli_query($conn,$sql);
 
 $phpResult = isset($query)?"ok":"no";

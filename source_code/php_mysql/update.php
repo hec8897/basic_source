@@ -39,7 +39,6 @@ $phpResult = isset($query)?"ok":"no";
 $json =  json_encode(
     array(
         "phpResult"=>$phpResult,
-        "test"=>$sql
 )); 
 
 echo urldecode($json);

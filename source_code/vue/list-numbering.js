@@ -1,7 +1,7 @@
-// 리스트 넘버링 컴포넌트
-//DataLegnth
 
-Vue.component('list-number', {
+import eventBus from './eventbus.js'
+
+const listNumber = {
     props: ['DataLength','nowpage'],
     template: `<div class="page">
                 <span class="none" v-if="start === 1"><i class="material-icons vam">navigate_before</i></span>
@@ -23,19 +23,14 @@ Vue.component('list-number', {
         }
     },
     created(){
+
         this.thisNumber = this.DataLength
         if(this.DataLength <= 10){
             this.limit = this.DataLength
         }
         eventBus.$on('ListLength',(Data)=>{
         })
-        
-        //리스트 업데이트 eventbus
-        // eventBus.$emit('UpdateList', {
-            // DataLength: Math.ceil((this.results.length) / 10),
-            // nowpage: this.limit - 10
-        // })
-        
+
         eventBus.$on('UpdateList',(Data)=>{
             this.limit = Data.DataLength;
             this.thisNumber = Data.nowpage
@@ -84,33 +79,31 @@ Vue.component('list-number', {
                 this.thisIndex = i
                 this.ActivationBtn(i)
             }
-
-            //다음 페이지 Next eventBus
             eventBus.$emit('NextPage',i-1)    
-
-            // eventBus.$on('NextPage', (Data) => {
-                // this.start = Data * 10;
-                // this.limit = (Data * 10) + 10
-            // })
 
         },
         NextList(){
             this.start+=10;
             if(this.limit+10 > this.DataLength){
                 this.limit = this.DataLength
+                
             }
             else{
                 this.limit+=10;
                 this.ActivationBtn(this.start)
             }
             this.NextPage(this.start,this.start+1)
+
         },
         FrontList(){
+            
             this.start-=10;
             this.limit = Math.ceil((this.limit-10)/10)*10
+
             if(this.start == 1){
                 this.limit = 10;
             }
+
             this.NextPage(this.start,this.start+1)
             this.ActivationBtn(this.start)
 
@@ -118,6 +111,6 @@ Vue.component('list-number', {
 
     }
   
-})
+}
 
-
+export default listNumber;

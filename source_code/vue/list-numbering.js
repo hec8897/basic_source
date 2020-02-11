@@ -1,5 +1,6 @@
 
 import eventBus from './eventbus.js'
+/*<list-number v-bind:nowpage = 'this.limit-10' v-bind:DataLength='Math.ceil((this.results.length)/10)'></list-number> */
 
 const listNumber = {
     props: ['DataLength','nowpage'],

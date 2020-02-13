@@ -1,6 +1,5 @@
 // 리스트 넘버링 컴포넌트
 //DataLegnth
-
 Vue.component('list-number', {
     props: ['DataLength','nowpage'],
     template: `<div class="page">
@@ -84,10 +83,8 @@ Vue.component('list-number', {
                 this.thisIndex = i
                 this.ActivationBtn(i)
             }
-
             //다음 페이지 Next eventBus
             eventBus.$emit('NextPage',i-1)    
-
             // eventBus.$on('NextPage', (Data) => {
                 // this.start = Data * 10;
                 // this.limit = (Data * 10) + 10

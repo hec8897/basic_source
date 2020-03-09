@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 // 리스트 넘버링 컴포넌트
 //DataLegnth
 Vue.component('list-number', {
-=======
-
-import eventBus from './eventbus.js'
-/*<list-number v-bind:nowpage = 'this.limit-10' v-bind:DataLength='Math.ceil((this.results.length)/10)'></list-number> */
-
-const listNumber = {
->>>>>>> b77cb144d00a4d641d7256bd642d54e3dbc8468c
     props: ['DataLength','nowpage'],
     template: `<div class="page">
                 <span class="none" v-if="start === 1"><i class="material-icons vam">navigate_before</i></span>
